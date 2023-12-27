@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/Chat.css";
 import { Avatar } from "@mui/material";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
@@ -8,14 +8,18 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
+import { dataContext } from "../context/DataProvider";
 
-export default function Chat({ chatlist }) {
+export default function Chat() {
   const { id } = useParams();
 
   const [currentchat, setCurrentchat] = useState({});
 
+
+const { chatlist } = useContext(dataContext);
+
   useEffect(() => {
-    chatlist.map((chat, index) => {
+    chatlist?.map((chat, index) => {
       if (chat.name == id) {
         setCurrentchat(chat);
       }
