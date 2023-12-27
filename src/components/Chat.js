@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { DataContext } from "../context/DataProvider";
 import "../styles/Chat.css";
 import { Avatar } from "@mui/material";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
@@ -9,18 +10,12 @@ import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
 
-export default function Chat({ chatlist }) {
+export default function Chat() {
   const { id } = useParams();
 
-  const [currentchat, setCurrentchat] = useState({});
+  const { currentchat } = useContext(DataContext);
 
-  useEffect(() => {
-    chatlist.map((chat, index) => {
-      if (chat.name == id) {
-        setCurrentchat(chat);
-      }
-    });
-  }, [id]);
+  const { chatlist } = useContext(DataContext);
 
   return (
     <div className="Chat">
@@ -40,6 +35,7 @@ export default function Chat({ chatlist }) {
         {currentchat?.messages?.map((message, index) => {
           return (
             <div
+              key={index}
               className={
                 message.sent ? "chat_message chat_sent" : "chat_message"
               }

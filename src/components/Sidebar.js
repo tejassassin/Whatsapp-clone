@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { DataContext } from "../context/DataProvider";
+
 import "../styles/Sidebar.css";
 
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -13,7 +15,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
 
-export default function Sidebar({ chatlist }) {
+export default function Sidebar() {
   let x = new Date().toLocaleTimeString();
 
   const [reveal, setReveal] = useState(false);
@@ -22,21 +24,20 @@ export default function Sidebar({ chatlist }) {
     setReveal(!reveal);
   };
 
+  const { chatlist, archivedchatlist } = useContext(DataContext);
+
   const [seachvalue, setSeachvalue] = useState("");
   const [newchatlist, setNewchatlist] = useState(chatlist);
 
   const handleChange = (e) => {
     setSeachvalue(e.target.value);
-    console.log();
 
     let newlist = chatlist.filter(
       (chat) =>
         chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
     );
 
-
     setNewchatlist(newlist);
-    console.log(newchatlist);
   };
 
   return (
@@ -77,11 +78,11 @@ export default function Sidebar({ chatlist }) {
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newchatlist} />
+        <Sidebarchat newchatlist={archivedchatlist} reveal={reveal} />
       </div>
 
       <div className="sidebar_chat_list">
-        <Sidebarchat newchatlist={newchatlist} />
+        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
       </div>
     </div>
   );

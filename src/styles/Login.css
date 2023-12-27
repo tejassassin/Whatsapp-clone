@@ -1,0 +1,31 @@
+.login {
+  height: 100%;
+  width: 100%;
+  background-color: #202826;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo_container {
+  width: 25%;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logo_container > img {
+  width: 40%;
+  margin-bottom: 40px;
+}
+
+/* .logo_container > .login_button {
+  width: 100%;
+  margin-top: 50px;
+} */
