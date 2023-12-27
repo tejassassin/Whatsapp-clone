@@ -8,15 +8,14 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
-import { dataContext } from "../context/DataProvider";
+import { DataContext } from "../context/DataProvider";
 
 export default function Chat() {
   const { id } = useParams();
 
   const [currentchat, setCurrentchat] = useState({});
 
-
-const { chatlist } = useContext(dataContext);
+  const { chatlist } = useContext(DataContext);
 
   useEffect(() => {
     chatlist?.map((chat, index) => {

@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export const dataContext = createContext();
+export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
   const [chatlist, setChatlist] = useState([
@@ -39,8 +39,8 @@ export default function DataProvider({ children }) {
   ]);
 
   return (
-    <dataContext.Provider values={{chatlist, setChatlist}}>
+    <DataContext.Provider values={{chatlist, setChatlist}}>
       {children}
-    </dataContext.Provider>
+    </DataContext.Provider>
   );
 }
