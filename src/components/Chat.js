@@ -11,9 +11,8 @@ import { useParams } from "react-router-dom";
 import { DataContext } from "../context/DataProvider";
 
 export default function Chat() {
-  const { id } = useParams();
+  const { chatlist, currentchat } = useContext(DataContext);
 
-  const [currentchat, setCurrentchat] = useState({});
 
   // const { chatlist } = useContext(DataContext);
 

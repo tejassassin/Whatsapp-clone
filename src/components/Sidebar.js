@@ -17,8 +17,6 @@ import { DataContext } from "../context/DataProvider";
 export default function Sidebar() {
   const { chatlist } = useContext(DataContext);
 
-  let x = new Date().toLocaleTimeString();
-
   const [reveal, setReveal] = useState(false);
 
   const handleReveal = () => {

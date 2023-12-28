@@ -3,6 +3,8 @@ import { createContext, useState } from "react";
 export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
+  const [currentchat, setCurrentchat] = useState({});
+
   const [chatlist, setChatlist] = useState([
     {
       name: "Teja Mallela",
@@ -39,7 +41,9 @@ export default function DataProvider({ children }) {
   ]);
 
   return (
-    <DataContext.Provider value={{chatlist, setChatlist}}>
+    <DataContext.Provider
+      value={{ chatlist, setChatlist, currentchat, setCurrentchat }}
+    >
       {children}
     </DataContext.Provider>
   );
