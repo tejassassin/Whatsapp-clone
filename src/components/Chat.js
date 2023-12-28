@@ -14,7 +14,7 @@ export default function Chat() {
   const { currentchat } = useContext(DataContext);
 
   return (
-    <div className="Chat">
+    <div className="chat">
       <div className="chat_header">
         <Avatar className="chat_header_avatar" src={currentchat.pic} />
         <div className="chat_name">
