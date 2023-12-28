@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/DataProvider";
 
 import "../styles/Sidebar.css";
@@ -16,35 +16,29 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
 
 export default function Sidebar() {
-  const { reveal, setReveal, chatlist, archivedchatlist } =
+  const { reveal, setReveal, chatlist } =
     useContext(DataContext);
+
   const [seachvalue, setSeachvalue] = useState("");
+
   const [newchatlist, setNewchatlist] = useState(chatlist);
-  const [newarchivedchatlist, setNewarchivedchatlist] =
-    useState(archivedchatlist);
 
 
   const handleReveal = () => {
-    setNewchatlist(archivedchatlist);
     setReveal(!reveal);
   };
 
   const handleChange = (e) => {
     setSeachvalue(e.target.value);
 
-    if (reveal) {
-      let newlist = archivedchatlist.filter(
-        (chat) =>
-          chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
-      );
-      setNewarchivedchatlist(newlist);
-    } else {
-      let newlist = chatlist.filter(
-        (chat) =>
-          chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
-      );
-      setNewchatlist(newlist);
-    }
+    let newlist = chatlist.filter(
+      (chat) =>
+        chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+    );
+
+    newlist = newlist.filter((chat) => chat.archived == reveal);
+
+    setNewchatlist(newlist);
   };
 
   return (
@@ -71,25 +65,29 @@ export default function Sidebar() {
       <div className="sidebar_archived" onClick={handleReveal}>
         <BusinessCenterOutlinedIcon className="archived" />
         Archived
-        <div className="archived_number">{archivedchatlist.length}</div>
+        <div className="archived_number">
+          {chatlist.filter((chat) => chat["archived"]).length}
+        </div>
       </div>
 
       <div
-        className="sidebar_archived_section"
-        style={{
-          marginLeft: reveal ? "0%" : "-140%",
-          opacity: reveal ? "1" : "0",
-        }}
+        className={`sidebar_archived_section ${reveal ? "revealed" : "hidden"}`}
       >
         <div className="sidebar_archived_section_header">
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newarchivedchatlist} reveal={reveal} />
+        <Sidebarchat
+          newchatlist={newchatlist}
+          setNewchatlist={setNewchatlist}
+        />
       </div>
 
       <div className="sidebar_chat_list">
-        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
+        <Sidebarchat
+          newchatlist={newchatlist}
+          setNewchatlist={setNewchatlist}
+        />
       </div>
     </div>
   );

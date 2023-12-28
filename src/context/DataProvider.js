@@ -6,7 +6,6 @@ export default function DataProvider({ children }) {
   const [account, setAccount] = useState();
   const [currentchat, setCurrentchat] = useState({});
 
-  const [archivedchatlist, setArchivedChatlist] = useState([]);
   const [reveal, setReveal] = useState(false);
 
   const [chatlist, setChatlist] = useState([
@@ -25,6 +24,7 @@ export default function DataProvider({ children }) {
           sent: false,
         },
       ],
+      archived: false,
     },
     {
       name: "Shravya Gopala",
@@ -41,6 +41,7 @@ export default function DataProvider({ children }) {
           sent: false,
         },
       ],
+      archived: false,
     },
     {
       name: "Tejaswini Ponna",
@@ -57,6 +58,7 @@ export default function DataProvider({ children }) {
           sent: false,
         },
       ],
+      archived: false,
     },
   ]);
   return (
@@ -70,8 +72,6 @@ export default function DataProvider({ children }) {
         setChatlist,
         currentchat,
         setCurrentchat,
-        archivedchatlist,
-        setArchivedChatlist,
       }}
     >
       {children}
