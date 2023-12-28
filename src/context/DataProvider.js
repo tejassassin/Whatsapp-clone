@@ -7,6 +7,7 @@ export default function DataProvider({ children }) {
   const [currentchat, setCurrentchat] = useState({});
 
   const [archivedchatlist, setArchivedChatlist] = useState([]);
+  const [reveal, setReveal] = useState(false);
 
   const [chatlist, setChatlist] = useState([
     {
@@ -61,6 +62,8 @@ export default function DataProvider({ children }) {
   return (
     <DataContext.Provider
       value={{
+        reveal,
+        setReveal,
         account,
         setAccount,
         chatlist,

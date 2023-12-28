@@ -11,11 +11,7 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
 
 export default function Chat() {
-  const { id } = useParams();
-
   const { currentchat } = useContext(DataContext);
-
-  const { chatlist } = useContext(DataContext);
 
   return (
     <div className="Chat">

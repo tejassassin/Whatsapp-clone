@@ -16,28 +16,35 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
 
 export default function Sidebar() {
-  let x = new Date().toLocaleTimeString();
-
-  const [reveal, setReveal] = useState(false);
-
-  const handleReveal = () => {
-    setReveal(!reveal);
-  };
-
-  const { chatlist, archivedchatlist } = useContext(DataContext);
-
+  const { reveal, setReveal, chatlist, archivedchatlist } =
+    useContext(DataContext);
   const [seachvalue, setSeachvalue] = useState("");
   const [newchatlist, setNewchatlist] = useState(chatlist);
+  const [newarchivedchatlist, setNewarchivedchatlist] =
+    useState(archivedchatlist);
+
+
+  const handleReveal = () => {
+    setNewchatlist(archivedchatlist);
+    setReveal(!reveal);
+  };
 
   const handleChange = (e) => {
     setSeachvalue(e.target.value);
 
-    let newlist = chatlist.filter(
-      (chat) =>
-        chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
-    );
-
-    setNewchatlist(newlist);
+    if (reveal) {
+      let newlist = archivedchatlist.filter(
+        (chat) =>
+          chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+      );
+      setNewarchivedchatlist(newlist);
+    } else {
+      let newlist = chatlist.filter(
+        (chat) =>
+          chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+      );
+      setNewchatlist(newlist);
+    }
   };
 
   return (
@@ -64,7 +71,7 @@ export default function Sidebar() {
       <div className="sidebar_archived" onClick={handleReveal}>
         <BusinessCenterOutlinedIcon className="archived" />
         Archived
-        <div className="archived_number">2</div>
+        <div className="archived_number">{archivedchatlist.length}</div>
       </div>
 
       <div
@@ -78,7 +85,7 @@ export default function Sidebar() {
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={archivedchatlist} reveal={reveal} />
+        <Sidebarchat newchatlist={newarchivedchatlist} reveal={reveal} />
       </div>
 
       <div className="sidebar_chat_list">

@@ -15,6 +15,10 @@ export default function Sidebarchat({ newchatlist, reveal }) {
     setArchivedChatlist,
   } = useContext(DataContext);
 
+  const handleCurrentchat = (chat) => {
+    setCurrentchat(chat);
+  };
+
   const handleDropdown = (index, event) => {
     event.stopPropagation();
     if (index == dropdownindex) {
@@ -24,7 +28,9 @@ export default function Sidebarchat({ newchatlist, reveal }) {
     }
   };
 
-  const handleArchive = (index, reveal) => {
+  const handleArchive = (index, reveal, event) => {
+    event.stopPropagation();
+
     if (reveal) {
       if (index == newchatlist.length - 1) {
         setCurrentchat(newchatlist[0]);
@@ -36,7 +42,6 @@ export default function Sidebarchat({ newchatlist, reveal }) {
       let deletedchatlist = archivedchatlist;
       deletedchatlist.splice(index, 1);
       setArchivedChatlist(deletedchatlist);
-      
     } else {
       if (index == newchatlist.length - 1) {
         setCurrentchat(newchatlist[0]);
@@ -59,7 +64,7 @@ export default function Sidebarchat({ newchatlist, reveal }) {
             <div
               className="sidebar_container"
               key={index}
-              // onClick={() => setCurrentchat(chat)}
+              onClick={() => handleCurrentchat(chat)}
             >
               <div className="sidebar_chat">
                 <Avatar className="sidebar_header_avatar" src={chat.pic} />
@@ -80,14 +85,14 @@ export default function Sidebarchat({ newchatlist, reveal }) {
                 {reveal ? (
                   <div
                     className="dropdown_item"
-                    onClick={() => handleArchive(index, reveal)}
+                    onClick={(event) => handleArchive(index, reveal, event)}
                   >
                     Unarchive Chat
                   </div>
                 ) : (
                   <div
                     className="dropdown_item"
-                    onClick={() => handleArchive(index, reveal)}
+                    onClick={(event) => handleArchive(index, reveal, event)}
                   >
                     Archive Chat
                   </div>
