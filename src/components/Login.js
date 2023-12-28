@@ -5,14 +5,29 @@ import whatsapp_logo from "../images/whatsapp_logo.png";
 import "../styles/Login.css";
 import { jwtDecode } from "jwt-decode";
 
+import { addUser } from "../service/api.js";
 
 export default function () {
   const { setAccount } = useContext(DataContext);
 
-  const onLoginSuccess = (res) => {
+  const processData = (decoded) => {
+    let data = {};
+    data.sub = decoded.sub;
+    data.email = decoded.email;
+    data.email_verified = decoded.email_verified;
+    data.picture = decoded.picture;
+    data.name = decoded.name;
+    data.archived = false;
+    data.messsages = [];
+    console.log(data);
+    return data;
+  };
+
+  const onLoginSuccess = async (res) => {
     const decoded = jwtDecode(res.credential);
-    setAccount(decoded);
-    console.log(decoded)
+
+    setAccount(processData(decoded));
+    await addUser(processData(decoded));
   };
 
   const onLoginError = (res) => {

@@ -16,7 +16,7 @@ export default function Chat() {
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar className="chat_header_avatar" src={currentchat.pic} />
+        <Avatar className="chat_header_avatar" src={currentchat.picture} />
         <div className="chat_name">
           <h3>{currentchat.name}</h3>
           <p>online</p>

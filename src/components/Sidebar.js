@@ -14,14 +14,22 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
+import { getUsers } from "../service/api.js";
 
 export default function Sidebar() {
-  const { reveal, setReveal, chatlist } =
-    useContext(DataContext);
-
+  const { reveal, setReveal, chatlist, setChatlist } = useContext(DataContext);
+  const [newchatlist, setNewchatlist] = useState([]);
   const [seachvalue, setSeachvalue] = useState("");
 
-  const [newchatlist, setNewchatlist] = useState(chatlist);
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await getUsers();
+      console.log(response);
+      setNewchatlist(response);
+    };
+    fetchData();
+  }, []);
+
 
 
   const handleReveal = () => {

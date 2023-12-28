@@ -5,6 +5,10 @@ import { Avatar } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function Sidebarchat({ newchatlist, setNewchatlist }) {
+
+
+console.log(newchatlist)
+
   const [dropdownindex, setDropdownindex] = useState(-1);
 
   const { reveal, chatlist, setChatlist, setCurrentchat } =
@@ -83,11 +87,11 @@ export default function Sidebarchat({ newchatlist, setNewchatlist }) {
                 onClick={() => handleCurrentchat(chat)}
               >
                 <div className="sidebar_chat">
-                  <Avatar className="sidebar_header_avatar" src={chat.pic} />
+                  <Avatar className="sidebar_header_avatar" src={chat?.picture} />
                   <div className="sidebar_chat_info">
-                    <h3>{chat.name}</h3>
-                    <p>{chat.messages[chat.messages.length - 1].content}</p>
-                    <span>{chat.messages[chat.messages.length - 1].time}</span>
+                    <h3>{chat?.name}</h3>
+                    <p>{chat?.messages[chat?.messages?.length - 1]?.content}</p>
+                    <span>{chat?.messages[chat?.messages?.length - 1]?.time}</span>
                     <KeyboardArrowDownIcon
                       className="down_arrow"
                       onClick={(event) => handleDropdown(index, event)}
