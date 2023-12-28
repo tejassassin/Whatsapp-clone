@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../styles/Sidebar.css";
 
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -12,8 +12,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
+import { DataContext } from "../context/DataProvider";
 
-export default function Sidebar({ chatlist }) {
+export default function Sidebar() {
+  const { chatlist } = useContext(DataContext);
+
   let x = new Date().toLocaleTimeString();
 
   const [reveal, setReveal] = useState(false);
@@ -33,7 +36,6 @@ export default function Sidebar({ chatlist }) {
       (chat) =>
         chat.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
     );
-
 
     setNewchatlist(newlist);
     console.log(newchatlist);

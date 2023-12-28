@@ -15,15 +15,7 @@ export default function Chat() {
 
   const [currentchat, setCurrentchat] = useState({});
 
-  const { chatlist } = useContext(DataContext);
-
-  useEffect(() => {
-    chatlist?.map((chat, index) => {
-      if (chat.name == id) {
-        setCurrentchat(chat);
-      }
-    });
-  }, [id]);
+  // const { chatlist } = useContext(DataContext);
 
   return (
     <div className="Chat">

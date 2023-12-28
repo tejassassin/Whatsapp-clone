@@ -39,7 +39,7 @@ export default function DataProvider({ children }) {
   ]);
 
   return (
-    <DataContext.Provider values={{chatlist, setChatlist}}>
+    <DataContext.Provider value={{chatlist, setChatlist}}>
       {children}
     </DataContext.Provider>
   );
