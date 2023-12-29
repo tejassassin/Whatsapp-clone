@@ -13,7 +13,6 @@ import { DataContext } from "../context/DataProvider";
 export default function Chat() {
   const { chatlist, currentchat } = useContext(DataContext);
 
-
   // const { chatlist } = useContext(DataContext);
 
   return (
@@ -34,6 +33,7 @@ export default function Chat() {
         {currentchat?.messages?.map((message, index) => {
           return (
             <div
+              key={index}
               className={
                 message.sent ? "chat_message chat_sent" : "chat_message"
               }

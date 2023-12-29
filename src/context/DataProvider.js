@@ -8,6 +8,7 @@ export default function DataProvider({ children }) {
   const [chatlist, setChatlist] = useState([
     {
       name: "Teja Mallela",
+      archived: true,
       pic: "https://mui.com/static/images/avatar/2.jpg",
       messages: [
         {
@@ -24,6 +25,7 @@ export default function DataProvider({ children }) {
     },
     {
       name: "Shravya Gopala",
+      archived: false,
       pic: "https://i.pinimg.com/564x/3e/fd/7b/3efd7b3dbe7dbc36b0cd692d21665202.jpg",
       messages: [
         {

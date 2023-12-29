@@ -77,11 +77,11 @@ export default function Sidebar() {
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newchatlist} />
+        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
       </div>
 
       <div className="sidebar_chat_list">
-        <Sidebarchat newchatlist={newchatlist} />
+        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
       </div>
     </div>
   );
