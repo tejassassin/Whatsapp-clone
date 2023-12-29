@@ -35,7 +35,8 @@ export default function Sidebarchat({ newchatlist, reveal }) {
 
   return (
     <div>
-      {newchatlist &&
+      {chatlist &&
+        newchatlist &&
         newchatlist?.map((chat, index) => {
           if (reveal == chat.archived)
             return (
