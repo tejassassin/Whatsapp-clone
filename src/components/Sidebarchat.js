@@ -3,19 +3,19 @@ import { DataContext } from "../context/DataProvider";
 
 import { Avatar } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { setConversation } from "../service/api.js";
 
 export default function Sidebarchat({ newchatlist, setNewchatlist }) {
-
-
-console.log(newchatlist)
+  console.log(newchatlist);
 
   const [dropdownindex, setDropdownindex] = useState(-1);
 
-  const { reveal, chatlist, setChatlist, setCurrentchat } =
+  const { reveal, chatlist, setChatlist, account, setCurrentchat } =
     useContext(DataContext);
 
-  const handleCurrentchat = (chat) => {
+  const handleCurrentchat = async (chat) => {
     setCurrentchat(chat);
+    await setConversation({ senderId: account.sub, receiverId: chat.sub });
   };
 
   const handleDropdown = (index, event) => {
@@ -87,11 +87,16 @@ console.log(newchatlist)
                 onClick={() => handleCurrentchat(chat)}
               >
                 <div className="sidebar_chat">
-                  <Avatar className="sidebar_header_avatar" src={chat?.picture} />
+                  <Avatar
+                    className="sidebar_header_avatar"
+                    src={chat?.picture}
+                  />
                   <div className="sidebar_chat_info">
                     <h3>{chat?.name}</h3>
                     <p>{chat?.messages[chat?.messages?.length - 1]?.content}</p>
-                    <span>{chat?.messages[chat?.messages?.length - 1]?.time}</span>
+                    <span>
+                      {chat?.messages[chat?.messages?.length - 1]?.time}
+                    </span>
                     <KeyboardArrowDownIcon
                       className="down_arrow"
                       onClick={(event) => handleDropdown(index, event)}

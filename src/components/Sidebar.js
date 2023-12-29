@@ -17,7 +17,8 @@ import Sidebarchat from "./Sidebarchat";
 import { getUsers } from "../service/api.js";
 
 export default function Sidebar() {
-  const { reveal, setReveal, chatlist, setChatlist } = useContext(DataContext);
+  const { reveal, setReveal, chatlist, setChatlist, account } =
+    useContext(DataContext);
   const [newchatlist, setNewchatlist] = useState([]);
   const [seachvalue, setSeachvalue] = useState("");
 
@@ -29,8 +30,6 @@ export default function Sidebar() {
     };
     fetchData();
   }, []);
-
-
 
   const handleReveal = () => {
     setReveal(!reveal);
@@ -52,11 +51,8 @@ export default function Sidebar() {
   return (
     <div className="Sidebar">
       <div className="sidebar_header">
-        <Avatar
-          className="sidebar_header_avatar"
-          src="https://mui.com/static/images/avatar/2.jpg"
-        />
-        <h5>Chats</h5>
+        <Avatar className="sidebar_header_avatar" src={account.picture} />
+        <p className="sidebar_header_name">{account.name}</p>
         <BorderColorIcon className="sidebar_icons edit" />
         <MoreHorizIcon className="sidebar_icons more" />
       </div>
