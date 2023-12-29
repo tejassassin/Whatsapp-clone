@@ -25,9 +25,9 @@ export default function () {
 
   const onLoginSuccess = async (res) => {
     const decoded = jwtDecode(res.credential);
-
-    setAccount(processData(decoded));
-    await addUser(processData(decoded));
+    let processedData = processData(decoded);
+    setAccount(processedData);
+    await addUser(processedData);
   };
 
   const onLoginError = (res) => {

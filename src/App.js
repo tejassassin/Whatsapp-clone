@@ -10,11 +10,11 @@ import { DataContext } from "./context/DataProvider";
 function App() {
   const { account } = useContext(DataContext);
 
-  const Sidebar_and_chat = ({ chatlist }) => {
+  const Sidebar_and_chat = () => {
     return (
       <>
-        <Sidebar chatlist={chatlist} />
-        <Chat chatlist={chatlist} />
+        <Sidebar />
+        <Chat />
       </>
     );
   };

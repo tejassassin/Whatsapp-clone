@@ -6,7 +6,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { setConversation } from "../service/api.js";
 
 export default function Sidebarchat({ newchatlist, setNewchatlist }) {
-  console.log(newchatlist);
 
   const [dropdownindex, setDropdownindex] = useState(-1);
 

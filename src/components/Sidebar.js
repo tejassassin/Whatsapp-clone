@@ -19,16 +19,18 @@ import { getUsers } from "../service/api.js";
 export default function Sidebar() {
   const { reveal, setReveal, chatlist, setChatlist, account } =
     useContext(DataContext);
-  const [newchatlist, setNewchatlist] = useState([]);
+  const [newchatlist, setNewchatlist] = useState(chatlist);
   const [seachvalue, setSeachvalue] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       let response = await getUsers();
       console.log(response);
-      setNewchatlist(response);
+      setChatlist(response);
     };
-    fetchData();
+    if (chatlist.length == 0) {
+      fetchData();
+    }
   }, []);
 
   const handleReveal = () => {
