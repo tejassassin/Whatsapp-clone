@@ -1,27 +1,27 @@
-import { Avatar } from "@mui/material";
 import React, { useContext, useState } from "react";
+import { DataContext } from "../context/DataProvider";
+import { Avatar } from "@mui/material";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DataContext } from "../context/DataProvider";
 
-export default function Sidebarchat({ newchatlist, reveal }) {
-  const { chatlist, setChatlist, setCurrentchat } = useContext(DataContext);
-
+export default function Sidebarchat({ newchatlist }) {
   const [dropdownindex, setDropdownindex] = useState(-1);
+  const { reveal, chatlist, setChatlist, setCurrentchat } =
+    useContext(DataContext);
 
-  console.log(newchatlist);
-
-  const handleDropdown = (index) => {
-    if (dropdownindex == -1) {
-      setDropdownindex(index);
-    } else if (dropdownindex == index) {
+    console.log(newchatlist)
+  const handleDropdown = (index, event) => {
+    event.stopPropagation();
+    if (index == dropdownindex) {
       setDropdownindex(-1);
     } else {
       setDropdownindex(index);
     }
   };
 
-  const handleArchive = (index) => {
+  const handleArchive = (index, event) => {
+    event.stopPropagation();
+
     let changedlist = chatlist.map((chat, chatindex) => {
       if (chatindex == index) {
         return { ...chat, archived: true };
@@ -31,11 +31,12 @@ export default function Sidebarchat({ newchatlist, reveal }) {
     });
 
     setChatlist(changedlist);
+    console.log(changedlist)
   };
 
   return (
     <div>
-      {chatlist &&
+      {
         newchatlist &&
         newchatlist?.map((chat, index) => {
           if (reveal == chat.archived)
@@ -52,7 +53,7 @@ export default function Sidebarchat({ newchatlist, reveal }) {
                     <span>{chat.messages[chat.messages.length - 1].time}</span>
                     <KeyboardArrowDownIcon
                       className="down_arrow"
-                      onClick={() => handleDropdown(index)}
+                      onClick={(event) => handleDropdown(index, event)}
                     />
                   </div>
                 </div>
@@ -62,7 +63,7 @@ export default function Sidebarchat({ newchatlist, reveal }) {
                 >
                   <div
                     className="dropdown_item"
-                    onClick={() => handleArchive(index)}
+                    onClick={(event) => handleArchive(index, event)}
                   >
                     Archive chat
                   </div>

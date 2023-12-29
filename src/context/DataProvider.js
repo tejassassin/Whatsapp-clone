@@ -4,11 +4,12 @@ export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
   const [currentchat, setCurrentchat] = useState({});
+  const [reveal, setReveal] = useState(false);
 
   const [chatlist, setChatlist] = useState([
     {
       name: "Teja Mallela",
-      archived: true,
+      archived: false,
       pic: "https://mui.com/static/images/avatar/2.jpg",
       messages: [
         {
@@ -44,7 +45,14 @@ export default function DataProvider({ children }) {
 
   return (
     <DataContext.Provider
-      value={{ chatlist, setChatlist, currentchat, setCurrentchat }}
+      value={{
+        chatlist,
+        setChatlist,
+        currentchat,
+        setCurrentchat,
+        reveal,
+        setReveal,
+      }}
     >
       {children}
     </DataContext.Provider>

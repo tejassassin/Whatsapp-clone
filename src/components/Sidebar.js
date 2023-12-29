@@ -15,10 +15,9 @@ import Sidebarchat from "./Sidebarchat";
 import { DataContext } from "../context/DataProvider";
 
 export default function Sidebar() {
-  const { chatlist } = useContext(DataContext);
+  const { chatlist, reveal, setReveal } = useContext(DataContext);
 
-  const [reveal, setReveal] = useState(false);
-
+console.log(chatlist,"chatlist")
   const handleReveal = () => {
     setReveal(!reveal);
   };
@@ -77,11 +76,11 @@ export default function Sidebar() {
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
+        <Sidebarchat newchatlist={newchatlist}/>
       </div>
 
       <div className="sidebar_chat_list">
-        <Sidebarchat newchatlist={newchatlist} reveal={reveal} />
+        <Sidebarchat newchatlist={newchatlist} />
       </div>
     </div>
   );
