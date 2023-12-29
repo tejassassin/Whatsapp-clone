@@ -77,7 +77,8 @@ export default function Sidebar() {
       </div>
 
       <div
-        className={`sidebar_archived_section ${reveal ? "revealed" : "hidden"}`}
+        style={{ marginLeft: reveal ? "0%" : "-140%" }}
+        className={`sidebar_archived_section `}
       >
         <div className="sidebar_archived_section_header">
           <ArrowBackIcon onClick={handleReveal} className="back" />
