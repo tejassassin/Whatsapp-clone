@@ -13,8 +13,8 @@ function App() {
   const Sidebar_and_chat = ({ chatlist }) => {
     return (
       <>
-        <Sidebar chatlist={chatlist} />
-        <Chat chatlist={chatlist} />
+        <Sidebar />
+        <Chat />
       </>
     );
   };
