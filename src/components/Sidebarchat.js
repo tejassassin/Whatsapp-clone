@@ -6,7 +6,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { setConversation } from "../service/api.js";
 
 export default function Sidebarchat({ newchatlist, setNewchatlist }) {
-
   const [dropdownindex, setDropdownindex] = useState(-1);
 
   const { reveal, chatlist, setChatlist, account, setCurrentchat } =
@@ -78,7 +77,7 @@ export default function Sidebarchat({ newchatlist, setNewchatlist }) {
       {chatlist &&
         newchatlist &&
         newchatlist?.map((chat, index) => {
-          if (chat.archived == reveal) {
+          if (chat.archived == reveal && account.sub != chat.sub) {
             return (
               <div
                 className="sidebar_container"
