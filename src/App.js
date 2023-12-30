@@ -8,13 +8,13 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { DataContext } from "./context/DataProvider";
 
 function App() {
-  const { account } = useContext(DataContext);
+  const { account, currentchat } = useContext(DataContext);
 
   const Sidebar_and_chat = () => {
     return (
       <>
         <Sidebar />
-        <Chat />
+        {currentchat && <Chat />}
       </>
     );
   };

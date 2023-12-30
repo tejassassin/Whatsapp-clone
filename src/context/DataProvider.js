@@ -4,7 +4,7 @@ export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
   const [account, setAccount] = useState();
-  const [currentchat, setCurrentchat] = useState({});
+  const [currentchat, setCurrentchat] = useState(null);
 
   const [reveal, setReveal] = useState(false);
   const [chatlist, setChatlist] = useState([]);

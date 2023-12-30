@@ -9,9 +9,44 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
+import { addMessage, getConversation } from "../service/api";
 
 export default function Chat() {
-  const { currentchat } = useContext(DataContext);
+  const { account, currentchat } = useContext(DataContext);
+  const [input, setInput] = useState("");
+
+  const [conversation, setConversation] = useState({});
+
+  useEffect(() => {
+    const getConverstaionDetails = async () => {
+      let data = await getConversation({
+        senderId: account.sub,
+        receiverId: currentchat.sub,
+      });
+      setConversation(data);
+      console.log(data);
+    };
+
+    getConverstaionDetails();
+  }, [account.sub]);
+
+  const sendMessage = async (e) => {
+    console.log(e);
+    const code = e.which;
+    if (code == 13) {
+      let messsage = {
+        senderId: account.sub,
+        receiverId: currentchat.sub,
+        conversationId: conversation._id,
+        type: "text",
+        text: input,
+      };
+      console.log(messsage);
+      await addMessage(messsage);
+
+      setInput("");
+    }
+  };
 
   return (
     <div className="chat">
@@ -46,7 +81,12 @@ export default function Chat() {
       <div className="chat_footer">
         <EmojiEmotionsOutlinedIcon />
         <AttachFileOutlinedIcon />
-        <input placeholder="Type a message"></input>
+        <input
+          placeholder="Type a message"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => sendMessage(e)}
+        ></input>
         <SendOutlinedIcon />
       </div>
     </div>

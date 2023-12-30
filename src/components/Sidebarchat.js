@@ -42,11 +42,6 @@ export default function Sidebarchat({ newchatlist, setNewchatlist }) {
     event.stopPropagation();
 
     if (reveal) {
-      if (index == newchatlist.length - 1) {
-        setCurrentchat(newchatlist[0]);
-      } else {
-        setCurrentchat(newchatlist[index + 1]);
-      }
       let newlist = chatlist.map((chat, chatindex) => {
         if (index == chatindex) {
           return { ...chat, archived: false };
@@ -56,11 +51,6 @@ export default function Sidebarchat({ newchatlist, setNewchatlist }) {
 
       setChatlist(newlist);
     } else {
-      if (index == newchatlist.length - 1) {
-        setCurrentchat(newchatlist[0]);
-      } else {
-        setCurrentchat(newchatlist[index + 1]);
-      }
       let newlist = chatlist.map((chat, chatindex) => {
         if (index == chatindex) {
           return { ...chat, archived: true };
