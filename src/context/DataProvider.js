@@ -6,6 +6,8 @@ export default function DataProvider({ children }) {
   const [currentchat, setCurrentchat] = useState({});
   const [reveal, setReveal] = useState(false);
 
+  const [account, setAccount] = useState(null);
+
   const [chatlist, setChatlist] = useState([
     {
       name: "Teja Mallela",
@@ -52,6 +54,8 @@ export default function DataProvider({ children }) {
         setCurrentchat,
         reveal,
         setReveal,
+        account,
+        setAccount,
       }}
     >
       {children}

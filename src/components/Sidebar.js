@@ -15,7 +15,7 @@ import Sidebarchat from "./Sidebarchat";
 import { DataContext } from "../context/DataProvider";
 
 export default function Sidebar() {
-  const { chatlist, reveal, setReveal } = useContext(DataContext);
+  const { account, chatlist, reveal, setReveal } = useContext(DataContext);
 
   console.log(chatlist, "chatlist");
   const handleReveal = () => {
@@ -53,11 +53,8 @@ export default function Sidebar() {
   return (
     <div className="Sidebar">
       <div className="sidebar_header">
-        <Avatar
-          className="sidebar_header_avatar"
-          src="https://mui.com/static/images/avatar/2.jpg"
-        />
-        <h5>Chats</h5>
+        <Avatar className="sidebar_header_avatar" src={account?.picture} />
+        <p className="sidebar_header_name">{account?.name}</p>
         <BorderColorIcon className="sidebar_icons edit" />
         <MoreHorizIcon className="sidebar_icons more" />
       </div>
