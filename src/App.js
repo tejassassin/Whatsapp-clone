@@ -6,9 +6,21 @@ import Sidebar from "./components/Sidebar";
 import Login from "./components/Login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { DataContext } from "./context/DataProvider";
+import { getUsers } from "./service/api";
 
 function App() {
-  const { socket, account, currentchat } = useContext(DataContext);
+  const { chatlist, setChatlist, account, currentchat } =
+    useContext(DataContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await getUsers();
+      setChatlist(response);
+    };
+    if (chatlist.length == 0) {
+      fetchData();
+    }
+  }, []);
 
   const Sidebar_and_chat = () => {
     return (
