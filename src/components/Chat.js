@@ -35,8 +35,6 @@ export default function Chat() {
     const code = e.which;
     if (code == 13) {
       let messsage = {
-        senderId: account.sub,
-        receiverId: currentchat.sub,
         conversationId: conversation._id,
         type: "text",
         text: input,
