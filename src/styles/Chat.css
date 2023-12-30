@@ -7,8 +7,7 @@
   width: 70%;
 
   position: relative;
-  font-size: .9em;
-
+  font-size: 0.9em;
 }
 
 .chat_header {
@@ -49,6 +48,7 @@
 .chat_body {
   height: 82%;
   padding: 0px 25px;
+  overflow-y: scroll;
 }
 
 .chat_footer {
@@ -76,7 +76,7 @@
 }
 
 .chat_message {
-  margin-top: 10px;
+  margin: 10px 0;
   width: fit-content;
   background-color: #293b37;
   color: white;
@@ -84,7 +84,9 @@
   border-radius: 10px;
   position: relative;
   padding-right: 60px;
-  max-width: 40%;
+  max-width: 60%;
+  box-shadow: 3px 5px 6px 2px rgba(0, 0, 0, 0.4),
+    0 3px 10px 0 rgba(0, 0, 0, 0.4);
 }
 
 .chat_message > span {

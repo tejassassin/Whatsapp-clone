@@ -16,19 +16,20 @@ export default function Chat() {
   const [input, setInput] = useState("");
 
   const [conversation, setConversation] = useState({});
+  const [newMessage, setNewMessage] = useState(false);
+
+  const getConverstaionDetails = async () => {
+    let data = await getConversation({
+      senderId: account.sub,
+      receiverId: currentchat.sub,
+    });
+    setConversation(data);
+    console.log(data);
+  };
 
   useEffect(() => {
-    const getConverstaionDetails = async () => {
-      let data = await getConversation({
-        senderId: account.sub,
-        receiverId: currentchat.sub,
-      });
-      setConversation(data);
-      console.log(data);
-    };
-
     getConverstaionDetails();
-  }, [account.sub]);
+  }, [currentchat.sub, newMessage]);
 
   const sendMessage = async (e) => {
     console.log(e);
@@ -38,12 +39,31 @@ export default function Chat() {
         conversationId: conversation._id,
         type: "text",
         text: input,
+        senderId: account.sub,
+        receiverId: currentchat.sub,
       };
       console.log(messsage);
       await addMessage(messsage);
 
       setInput("");
+      setNewMessage(!newMessage);
     }
+  };
+
+  const formatDate = (date) => {
+    const newdate = new Date(date);
+
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+
+    const formattedTime = new Intl.DateTimeFormat("en-US", options).format(
+      newdate
+    );
+
+    return formattedTime;
   };
 
   return (
@@ -61,19 +81,22 @@ export default function Chat() {
       </div>
 
       <div className="chat_body">
-        {currentchat?.messages?.map((message, index) => {
-          return (
-            <div
-              key={index}
-              className={
-                message.sent ? "chat_message chat_sent" : "chat_message"
-              }
-            >
-              {message.content}
-              <span>{message.time}</span>
-            </div>
-          );
-        })}
+        {conversation &&
+          conversation?.messages?.map((message, index) => {
+            return (
+              <div
+                key={index}
+                className={
+                  message.senderId == account.sub
+                    ? "chat_message chat_sent"
+                    : "chat_message"
+                }
+              >
+                {message.text}
+                <span>{formatDate(message?.timestamp)}</span>
+              </div>
+            );
+          })}
       </div>
 
       <div className="chat_footer">
