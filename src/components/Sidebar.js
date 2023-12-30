@@ -17,7 +17,7 @@ import { DataContext } from "../context/DataProvider";
 export default function Sidebar() {
   const { chatlist, reveal, setReveal } = useContext(DataContext);
 
-console.log(chatlist,"chatlist")
+  console.log(chatlist, "chatlist");
   const handleReveal = () => {
     setReveal(!reveal);
   };
@@ -36,6 +36,18 @@ console.log(chatlist,"chatlist")
 
     setNewchatlist(newlist);
     console.log(newchatlist);
+  };
+
+  const getNoOfArchivedChats = () => {
+    let number = 0;
+
+    chatlist.map((chat, index) => {
+      if (chat.archived == true) {
+        number = number + 1;
+      }
+    });
+
+    return number;
   };
 
   return (
@@ -62,7 +74,7 @@ console.log(chatlist,"chatlist")
       <div className="sidebar_archived" onClick={handleReveal}>
         <BusinessCenterOutlinedIcon className="archived" />
         Archived
-        <div className="archived_number">2</div>
+        <div className="archived_number">{getNoOfArchivedChats()}</div>
       </div>
 
       <div
@@ -76,7 +88,7 @@ console.log(chatlist,"chatlist")
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newchatlist}/>
+        <Sidebarchat newchatlist={newchatlist} />
       </div>
 
       <div className="sidebar_chat_list">

@@ -22,9 +22,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <div className="App">
-        <div className="chat_container">
-          <Sidebar_and_chat />
-        </div>
+        <div className="chat_container">{<Sidebar_and_chat />}</div>
       </div>
     </GoogleOAuthProvider>
   );

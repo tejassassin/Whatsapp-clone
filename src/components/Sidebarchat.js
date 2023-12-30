@@ -9,7 +9,7 @@ export default function Sidebarchat({ newchatlist }) {
   const { reveal, chatlist, setChatlist, setCurrentchat } =
     useContext(DataContext);
 
-    console.log(newchatlist)
+  console.log(newchatlist);
   const handleDropdown = (index, event) => {
     event.stopPropagation();
     if (index == dropdownindex) {
@@ -20,8 +20,6 @@ export default function Sidebarchat({ newchatlist }) {
   };
 
   const handleArchive = (index, event) => {
-    event.stopPropagation();
-
     let changedlist = chatlist.map((chat, chatindex) => {
       if (chatindex == index) {
         return { ...chat, archived: true };
@@ -31,13 +29,25 @@ export default function Sidebarchat({ newchatlist }) {
     });
 
     setChatlist(changedlist);
-    console.log(changedlist)
+    console.log(changedlist);
+  };
+
+  const handleUnArchive = (index, event) => {
+    let changedlist = chatlist.map((chat, chatindex) => {
+      if (chatindex == index) {
+        return { ...chat, archived: false };
+      }
+
+      return chat;
+    });
+
+    setChatlist(changedlist);
+    console.log(changedlist);
   };
 
   return (
     <div>
-      {
-        newchatlist &&
+      {newchatlist &&
         newchatlist?.map((chat, index) => {
           if (reveal == chat.archived)
             return (
@@ -61,12 +71,22 @@ export default function Sidebarchat({ newchatlist }) {
                   className="dropdown_content"
                   style={{ display: dropdownindex == index ? "block" : "none" }}
                 >
-                  <div
-                    className="dropdown_item"
-                    onClick={(event) => handleArchive(index, event)}
-                  >
-                    Archive chat
-                  </div>
+                  {reveal ? (
+                    <div
+                      className="dropdown_item"
+                      onClick={(event) => handleUnArchive(index, event)}
+                    >
+                      Unarchive chat
+                    </div>
+                  ) : (
+                    <div
+                      className="dropdown_item"
+                      onClick={(event) => handleArchive(index, event)}
+                    >
+                      Archive chat
+                    </div>
+                  )}
+
                   <div className="dropdown_item">Delete chat</div>
                 </div>
               </div>
