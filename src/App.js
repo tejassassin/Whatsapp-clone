@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import Chat from "./components/Chat";
 import Sidebar from "./components/Sidebar";
@@ -8,7 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { DataContext } from "./context/DataProvider";
 
 function App() {
-  const { account, currentchat } = useContext(DataContext);
+  const { socket, account, currentchat } = useContext(DataContext);
 
   const Sidebar_and_chat = () => {
     return (

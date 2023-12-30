@@ -19,13 +19,13 @@ export default function () {
     data.name = decoded.name;
     data.archived = false;
     data.messsages = [];
-    console.log(data);
     return data;
   };
 
   const onLoginSuccess = async (res) => {
     const decoded = jwtDecode(res.credential);
     let processedData = processData(decoded);
+    // console.log(processedData);
     setAccount(processedData);
     await addUser(processedData);
   };

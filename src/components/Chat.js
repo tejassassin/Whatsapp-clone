@@ -12,11 +12,13 @@ import { useParams } from "react-router-dom";
 import { addMessage, getConversation } from "../service/api";
 
 export default function Chat() {
-  const { account, currentchat } = useContext(DataContext);
+  const { account, activeUsers, currentchat } = useContext(DataContext);
   const [input, setInput] = useState("");
 
   const [conversation, setConversation] = useState({});
   const [newMessage, setNewMessage] = useState(false);
+
+  console.log(activeUsers);
 
   const getConverstaionDetails = async () => {
     let data = await getConversation({
@@ -24,7 +26,6 @@ export default function Chat() {
       receiverId: currentchat.sub,
     });
     setConversation(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -72,7 +73,11 @@ export default function Chat() {
         <Avatar className="chat_header_avatar" src={currentchat.picture} />
         <div className="chat_name">
           <h3>{currentchat.name}</h3>
-          <p>online</p>
+          <p>
+            {activeUsers?.find((user) => user.sub == currentchat.sub)
+              ? "online"
+              : "offline"}
+          </p>
         </div>
 
         <CallOutlinedIcon className="phone" />

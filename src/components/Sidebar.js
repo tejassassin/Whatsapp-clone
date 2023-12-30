@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { DataContext } from "../context/DataProvider";
 
 import "../styles/Sidebar.css";
@@ -17,21 +17,36 @@ import Sidebarchat from "./Sidebarchat";
 import { getUsers } from "../service/api.js";
 
 export default function Sidebar() {
-  const { reveal, setReveal, chatlist, setChatlist, account } =
-    useContext(DataContext);
+  const {
+    socket,
+    setActiveUsers,
+    reveal,
+    setReveal,
+    chatlist,
+    setChatlist,
+    account,
+  } = useContext(DataContext);
   const [newchatlist, setNewchatlist] = useState(chatlist);
   const [seachvalue, setSeachvalue] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       let response = await getUsers();
-      console.log(response);
       setChatlist(response);
     };
     if (chatlist.length == 0) {
       fetchData();
     }
   }, []);
+  console.log(account);
+
+  useEffect(() => {
+    socket.current.emit("addUsers", account);
+    socket.current.on("getUsers", (users) => {
+      console.log(users);
+      setActiveUsers(users);
+    });
+  }, [account]);
 
   const handleReveal = () => {
     setReveal(!reveal);

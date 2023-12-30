@@ -1,13 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 
 export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
-  const [account, setAccount] = useState();
+  const [account, setAccount] = useState(null);
   const [currentchat, setCurrentchat] = useState(null);
 
   const [reveal, setReveal] = useState(false);
   const [chatlist, setChatlist] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([]);
+
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:9000");
+  }, []);
 
   // const [chatlist, setChatlist] = useState([
   //   {
@@ -65,6 +73,7 @@ export default function DataProvider({ children }) {
   return (
     <DataContext.Provider
       value={{
+        socket,
         reveal,
         setReveal,
         account,
@@ -73,6 +82,8 @@ export default function DataProvider({ children }) {
         setChatlist,
         currentchat,
         setCurrentchat,
+        activeUsers,
+        setActiveUsers,
       }}
     >
       {children}
