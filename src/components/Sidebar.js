@@ -16,12 +16,9 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Sidebarchat from "./Sidebarchat";
 
 export default function Sidebar() {
-  const { setActiveUsers, reveal, setReveal, chatlist, setChatlist, account } =
-    useContext(DataContext);
+  const { reveal, setReveal, chatlist, account } = useContext(DataContext);
   const [newchatlist, setNewchatlist] = useState(chatlist);
   const [seachvalue, setSeachvalue] = useState("");
-
-  console.log(account);
 
   const handleReveal = () => {
     setReveal(!reveal);

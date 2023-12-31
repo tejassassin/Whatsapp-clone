@@ -7,14 +7,18 @@ import Login from "./components/Login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { DataContext } from "./context/DataProvider";
 import { getUsers } from "./service/api";
+import { io } from "socket.io-client";
 
 function App() {
-  const { chatlist, setChatlist, account, currentchat } =
+  const { socket, chatlist, setChatlist, account, currentchat } =
     useContext(DataContext);
+
+  const [activeUsers, setActiveUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       let response = await getUsers();
+      console.log(response);
       setChatlist(response);
     };
     if (chatlist.length == 0) {
@@ -22,11 +26,23 @@ function App() {
     }
   }, []);
 
-  const Sidebar_and_chat = () => {
+  useEffect(() => {
+    if (account && socket) {
+      socket.emit("addUsers", account);
+
+      socket.on("getUsers", (users) => {
+        if (JSON.stringify(users) !== JSON.stringify(activeUsers)) {
+          setActiveUsers(users);
+        }
+      });
+    }
+  }, [account, socket]);
+
+  const Sidebar_and_chat = ({ activeUsers, setActiveUsers }) => {
     return (
       <>
-        <Sidebar />
-        {currentchat && <Chat />}
+        <Sidebar setActiveUsers={setActiveUsers} activeUsers={activeUsers} />
+        {currentchat && <Chat activeUsers={activeUsers} />}
       </>
     );
   };
@@ -38,7 +54,14 @@ function App() {
     <GoogleOAuthProvider clientId={clientId}>
       <div className="App">
         <div className="chat_container">
-          {account ? <Sidebar_and_chat /> : <Login />}
+          {account ? (
+            <Sidebar_and_chat
+              activeUsers={activeUsers}
+              setActiveUsers={setActiveUsers}
+            />
+          ) : (
+            <Login />
+          )}
         </div>
       </div>
     </GoogleOAuthProvider>

@@ -121,6 +121,8 @@
   color: white;
   margin-bottom: 5px;
   border-bottom: 1px solid rgb(255, 255, 255, 0.1);
+  border-top: 1px solid rgb(255, 255, 255, 0.1);
+
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -139,20 +141,27 @@
   width: 90%;
 }
 
+.truncate-text {
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflowing text */
+  text-overflow: ellipsis; /* Displays an ellipsis (...) when text overflows */
+  max-width: 70%; /* Adjust the max-width as needed */
+}
+
 .sidebar_chat_info > p {
   font-size: 12px;
   margin-top: 3px;
 }
 .sidebar_chat_info > span {
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 0px;
   font-size: 13px;
 }
 
 .sidebar_chat_info > .down_arrow {
   position: absolute;
-  right: 0px;
+  right: 5px;
   bottom: -3px;
   display: none;
 }

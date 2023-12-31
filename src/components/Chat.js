@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { DataContext } from "../context/DataProvider";
 import "../styles/Chat.css";
 import { Avatar } from "@mui/material";
@@ -10,15 +10,24 @@ import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
 import { addMessage, getConversation } from "../service/api";
+import { formatDate } from "../utils/Utils";
 
-export default function Chat() {
-  const { account, activeUsers, currentchat } = useContext(DataContext);
+export default function Chat({ activeUsers }) {
+  const {
+    socket,
+    account,
+    currentchat,
+    newMessage,
+    setNewMessage,
+    incomingMessage,
+    setIncomingMessage,
+  } = useContext(DataContext);
+
   const [input, setInput] = useState("");
 
   const [conversation, setConversation] = useState({});
-  const [newMessage, setNewMessage] = useState(false);
 
-  console.log(activeUsers);
+  const scrollRef = useRef();
 
   const getConverstaionDetails = async () => {
     let data = await getConversation({
@@ -29,42 +38,47 @@ export default function Chat() {
   };
 
   useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behaviour: "smooth" });
+  }, [conversation]);
+
+  useEffect(() => {
+    socket.on("getMessage", (data) => {
+      setIncomingMessage(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (incomingMessage && conversation && conversation?.messages) {
+      setConversation({
+        ...conversation,
+        messages: [...conversation?.messages, incomingMessage],
+      });
+    }
+  }, [incomingMessage]);
+
+  useEffect(() => {
     getConverstaionDetails();
   }, [currentchat.sub, newMessage]);
 
   const sendMessage = async (e) => {
-    console.log(e);
     const code = e.which;
-    if (code == 13) {
-      let messsage = {
+    if (code == 13 && input.trim()) {
+      let message = {
         conversationId: conversation._id,
         type: "text",
         text: input,
         senderId: account.sub,
         receiverId: currentchat.sub,
+        timestamp: new Date(),
       };
-      console.log(messsage);
-      await addMessage(messsage);
+      console.log(message);
+
+      socket.emit("sendMessage", message);
+      await addMessage(message);
 
       setInput("");
       setNewMessage(!newMessage);
     }
-  };
-
-  const formatDate = (date) => {
-    const newdate = new Date(date);
-
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-
-    const formattedTime = new Intl.DateTimeFormat("en-US", options).format(
-      newdate
-    );
-
-    return formattedTime;
   };
 
   return (
@@ -88,19 +102,22 @@ export default function Chat() {
       <div className="chat_body">
         {conversation &&
           conversation?.messages?.map((message, index) => {
-            return (
-              <div
-                key={index}
-                className={
-                  message.senderId == account.sub
-                    ? "chat_message chat_sent"
-                    : "chat_message"
-                }
-              >
-                {message.text}
-                <span>{formatDate(message?.timestamp)}</span>
-              </div>
-            );
+            if (message) {
+              return (
+                <div
+                  ref={scrollRef}
+                  key={index}
+                  className={
+                    message?.senderId == account.sub
+                      ? "chat_message chat_sent"
+                      : "chat_message"
+                  }
+                >
+                  {message?.text}
+                  <span>{formatDate(message)}</span>
+                </div>
+              );
+            }
           })}
       </div>
 

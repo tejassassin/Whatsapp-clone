@@ -1,66 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/DataProvider";
 
-import { Avatar } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { setConversation } from "../service/api.js";
+import SideChat from "./SideChat.js";
 
-export default function Sidebarchat({ newchatlist, setNewchatlist }) {
-  const [dropdownindex, setDropdownindex] = useState(-1);
-
-  const { reveal, chatlist, setChatlist, account, setCurrentchat } =
-    useContext(DataContext);
-
-  const handleCurrentchat = async (chat) => {
-    setCurrentchat(chat);
-    await setConversation({ senderId: account.sub, receiverId: chat.sub });
-  };
-
-  const handleDropdown = (index, event) => {
-    event.stopPropagation();
-    if (index == dropdownindex) {
-      setDropdownindex(-1);
-    } else {
-      setDropdownindex(index);
-    }
-  };
-
-  const deleteChat = (index, event) => {
-    event.stopPropagation();
-    let newlist = [...chatlist];
-    newlist.splice(index, 1);
-    setChatlist(newlist);
-    setDropdownindex(-1);
-    if (index == newchatlist.length - 1) {
-      setCurrentchat(newchatlist[0]);
-    } else {
-      setCurrentchat(newchatlist[index + 1]);
-    }
-  };
-
-  const handleArchive = (index, reveal, event) => {
-    event.stopPropagation();
-
-    if (reveal) {
-      let newlist = chatlist.map((chat, chatindex) => {
-        if (index == chatindex) {
-          return { ...chat, archived: false };
-        }
-        return chat;
-      });
-
-      setChatlist(newlist);
-    } else {
-      let newlist = chatlist.map((chat, chatindex) => {
-        if (index == chatindex) {
-          return { ...chat, archived: true };
-        }
-        return chat;
-      });
-
-      setChatlist(newlist);
-    }
-  };
+export default function Sidebarchat({ newchatlist }) {
+  const {
+    reveal,
+    chatlist,
+    setChatlist,
+    account,
+    currentchat,
+    setCurrentchat,
+    newMessage,
+    incomingMessage,
+  } = useContext(DataContext);
 
   return (
     <div>
@@ -69,57 +22,12 @@ export default function Sidebarchat({ newchatlist, setNewchatlist }) {
         newchatlist?.map((chat, index) => {
           if (chat.archived == reveal && account.sub != chat.sub) {
             return (
-              <div
-                className="sidebar_container"
+              <SideChat
                 key={index}
-                onClick={() => handleCurrentchat(chat)}
-              >
-                <div className="sidebar_chat">
-                  <Avatar
-                    className="sidebar_header_avatar"
-                    src={chat?.picture}
-                  />
-                  <div className="sidebar_chat_info">
-                    <h3>{chat?.name}</h3>
-                    <p>{chat?.messages[chat?.messages?.length - 1]?.content}</p>
-                    <span>
-                      {chat?.messages[chat?.messages?.length - 1]?.time}
-                    </span>
-                    <KeyboardArrowDownIcon
-                      className="down_arrow"
-                      onClick={(event) => handleDropdown(index, event)}
-                    />
-                  </div>
-                </div>
-                <div
-                  className="dropdown_content"
-                  style={{
-                    display: dropdownindex == index ? "block" : "none",
-                  }}
-                >
-                  {reveal ? (
-                    <div
-                      className="dropdown_item"
-                      onClick={(event) => handleArchive(index, reveal, event)}
-                    >
-                      Unarchive Chat
-                    </div>
-                  ) : (
-                    <div
-                      className="dropdown_item"
-                      onClick={(event) => handleArchive(index, reveal, event)}
-                    >
-                      Archive Chat
-                    </div>
-                  )}
-                  <div
-                    className="dropdown_item"
-                    onClick={(event) => deleteChat(index, event)}
-                  >
-                    Delete Chat
-                  </div>
-                </div>
-              </div>
+                newchatlist={newchatlist}
+                index={index}
+                chat={chat}
+              />
             );
           }
         })}

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 
 export const DataContext = createContext(null);
 
@@ -8,8 +9,21 @@ export default function DataProvider({ children }) {
 
   const [reveal, setReveal] = useState(false);
   const [chatlist, setChatlist] = useState([]);
-  const [activeUsers, setActiveUsers] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [newMessage, setNewMessage] = useState(false);
+  const [incomingMessage, setIncomingMessage] = useState("");
 
+  useEffect(() => {
+    if (account) {
+      const socket = io("http://localhost:9000");
+
+      setSocket(socket);
+
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [account]);
 
   // const [chatlist, setChatlist] = useState([
   //   {
@@ -67,7 +81,7 @@ export default function DataProvider({ children }) {
   return (
     <DataContext.Provider
       value={{
-        // socket,
+        socket,
         reveal,
         setReveal,
         account,
@@ -76,8 +90,10 @@ export default function DataProvider({ children }) {
         setChatlist,
         currentchat,
         setCurrentchat,
-        activeUsers,
-        setActiveUsers,
+        newMessage,
+        setNewMessage,
+        incomingMessage,
+        setIncomingMessage,
       }}
     >
       {children}
