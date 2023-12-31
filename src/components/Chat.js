@@ -12,6 +12,8 @@ import { useParams } from "react-router-dom";
 import { addMessage, getConversation } from "../service/api";
 import { formatDate } from "../utils/Utils";
 
+import default_chat from "../images/default_chat.png";
+
 export default function Chat({ activeUsers }) {
   const {
     socket,

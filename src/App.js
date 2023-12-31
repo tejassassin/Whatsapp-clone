@@ -7,7 +7,7 @@ import Login from "./components/Login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { DataContext } from "./context/DataProvider";
 import { getUsers } from "./service/api";
-import { io } from "socket.io-client";
+import default_chat from "./images/default_chat.png";
 
 function App() {
   const { socket, chatlist, setChatlist, account, currentchat } =
@@ -26,6 +26,7 @@ function App() {
     }
   }, []);
 
+  console.log(currentchat);
   useEffect(() => {
     if (account && socket) {
       socket.emit("addUsers", account);
@@ -42,7 +43,12 @@ function App() {
     return (
       <>
         <Sidebar setActiveUsers={setActiveUsers} activeUsers={activeUsers} />
-        {currentchat && <Chat activeUsers={activeUsers} />}
+        {currentchat ? (
+          <Chat activeUsers={activeUsers} />
+          // <img src={default_chat} />
+        ) : (
+          <img src={default_chat} />
+        )}
       </>
     );
   };
