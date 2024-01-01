@@ -95,7 +95,7 @@ export default function SideChat({ newchatlist, chat, index }) {
           {lastMessage ? (
             <p className="truncate-text">{lastMessage?.text}</p>
           ) : (
-            <p className="default_message">Say hi...</p>
+            <p className="default_message">"Say hi..."</p>
           )}
 
           {lastMessage ? <span>{formatDate(lastMessage)}</span> : <span></span>}

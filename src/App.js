@@ -18,7 +18,6 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       let response = await getUsers();
-      console.log(response);
       setChatlist(response);
     };
     if (chatlist.length == 0) {
@@ -26,7 +25,6 @@ function App() {
     }
   }, []);
 
-  console.log(currentchat);
   useEffect(() => {
     if (account && socket) {
       socket.emit("addUsers", account);
