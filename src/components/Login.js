@@ -7,6 +7,14 @@ import { DataContext } from "../context/DataProvider";
 
 export default function Login() {
   const { setAccount } = useContext(DataContext);
+  const filterUserData = (decoded) => {
+    return {
+      name: decoded.name,
+      email: decoded.email,
+      sub: decoded.sub,
+      picture: decoded.picture,
+    };
+  };
 
   return (
     <div className="login_container">
@@ -15,9 +23,9 @@ export default function Login() {
           onSuccess={(credentialResponse) => {
             const decoded = jwtDecode(credentialResponse.credential);
 
-            console.log(decoded);
-
-            setAccount(decoded);
+            let filteredUser = filterUserData(decoded);
+            console.log(filteredUser);
+            setAccount(filteredUser);
           }}
           onError={() => {
             console.log("Login Failed");
