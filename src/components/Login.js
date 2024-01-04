@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 import { GoogleLogin } from "@react-oauth/google";
 import { DataContext } from "../context/DataProvider";
+import { addUser } from "../service/api";
 
 export default function Login() {
   const { setAccount } = useContext(DataContext);
@@ -20,12 +21,14 @@ export default function Login() {
     <div className="login_container">
       <div className="login_button">
         <GoogleLogin
-          onSuccess={(credentialResponse) => {
+          onSuccess={async (credentialResponse) => {
             const decoded = jwtDecode(credentialResponse.credential);
 
             let filteredUser = filterUserData(decoded);
             console.log(filteredUser);
             setAccount(filteredUser);
+
+            await addUser(filteredUser);
           }}
           onError={() => {
             console.log("Login Failed");
