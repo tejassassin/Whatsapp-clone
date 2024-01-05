@@ -1,13 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import Chat from "./components/Chat";
 import Sidebar from "./components/Sidebar";
 import { DataContext } from "./context/DataProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./components/Login";
+import { getUser } from "./service/api";
 
 function App() {
-  const { account } = useContext(DataContext);
+  const { account, setChatlist } = useContext(DataContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let users = await getUser();
+      setChatlist(users);
+    };
+
+    fetchData();
+  }, []);
 
   const Sidebar_and_chat = () => {
     return (

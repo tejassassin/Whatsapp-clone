@@ -17,7 +17,6 @@ import { DataContext } from "../context/DataProvider";
 export default function Sidebar() {
   const { account, chatlist, reveal, setReveal } = useContext(DataContext);
 
-  console.log(chatlist, "chatlist");
   const handleReveal = () => {
     setReveal(!reveal);
   };

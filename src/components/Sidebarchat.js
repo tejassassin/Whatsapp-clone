@@ -6,10 +6,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function Sidebarchat({ newchatlist }) {
   const [dropdownindex, setDropdownindex] = useState(-1);
-  const { reveal, chatlist, setChatlist, setCurrentchat } =
+  const { reveal, chatlist, setChatlist, setCurrentchat, account } =
     useContext(DataContext);
 
-  console.log(newchatlist);
   const handleDropdown = (index, event) => {
     event.stopPropagation();
     if (index == dropdownindex) {
@@ -29,7 +28,6 @@ export default function Sidebarchat({ newchatlist }) {
     });
 
     setChatlist(changedlist);
-    console.log(changedlist);
   };
 
   const handleUnArchive = (index, event) => {
@@ -42,25 +40,27 @@ export default function Sidebarchat({ newchatlist }) {
     });
 
     setChatlist(changedlist);
-    console.log(changedlist);
   };
 
   return (
     <div>
       {newchatlist &&
-        newchatlist?.map((chat, index) => {
-          if (reveal == chat.archived)
+        newchatlist?.map((user, index) => {
+          if (account.sub !== user.sub)
             return (
               <div className="sidebar_container" key={index}>
                 <div
                   className="sidebar_chat"
-                  onClick={() => setCurrentchat(chat)}
+                  onClick={() => setCurrentchat(user)}
                 >
-                  <Avatar className="sidebar_header_avatar" src={chat.pic} />
+                  <Avatar
+                    className="sidebar_header_avatar"
+                    src={user.picture}
+                  />
                   <div className="sidebar_chat_info">
-                    <h3>{chat.name}</h3>
-                    <p>{chat.messages[chat.messages.length - 1].content}</p>
-                    <span>{chat.messages[chat.messages.length - 1].time}</span>
+                    <h3>{user.name}</h3>
+                    {/* <p>{chat.messages[chat.messages.length - 1].content}</p> */}
+                    {/* <span>{chat.messages[chat.messages.length - 1].time}</span> */}
                     <KeyboardArrowDownIcon
                       className="down_arrow"
                       onClick={(event) => handleDropdown(index, event)}
