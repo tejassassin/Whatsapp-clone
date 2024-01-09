@@ -3,6 +3,7 @@ import { DataContext } from "../context/DataProvider";
 import { Avatar } from "@mui/material";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { setConversation } from "../service/api";
 
 export default function Sidebarchat({ newchatlist }) {
   const [dropdownindex, setDropdownindex] = useState(-1);
@@ -16,6 +17,12 @@ export default function Sidebarchat({ newchatlist }) {
     } else {
       setDropdownindex(index);
     }
+  };
+
+  const addConversation = async (user) => {
+    setCurrentchat(user);
+    // add conversation to database
+    await setConversation({ senderId: account.sub, receiverId: user.sub });
   };
 
   const handleArchive = (index, event) => {
@@ -51,7 +58,7 @@ export default function Sidebarchat({ newchatlist }) {
               <div className="sidebar_container" key={index}>
                 <div
                   className="sidebar_chat"
-                  onClick={() => setCurrentchat(user)}
+                  onClick={() => addConversation(user)}
                 >
                   <Avatar
                     className="sidebar_header_avatar"

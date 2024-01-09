@@ -70,7 +70,7 @@ export default function Sidebar() {
       <div className="sidebar_archived" onClick={handleReveal}>
         <BusinessCenterOutlinedIcon className="archived" />
         Archived
-        <div className="archived_number">{getNoOfArchivedChats()}</div>
+        {/* <div className="archived_number">{getNoOfArchivedChats()}</div> */}
       </div>
 
       <div
