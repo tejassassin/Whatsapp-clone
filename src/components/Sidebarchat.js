@@ -20,9 +20,16 @@ export default function Sidebarchat({ newchatlist }) {
   };
 
   const addConversation = async (user) => {
+    console.log(user);
+
     setCurrentchat(user);
     // add conversation to database
-    await setConversation({ senderId: account.sub, receiverId: user.sub });
+    await setConversation(
+      { 
+        senderId: account.sub, 
+        receiverId: user.sub 
+      }
+      );
   };
 
   const handleArchive = (index, event) => {
