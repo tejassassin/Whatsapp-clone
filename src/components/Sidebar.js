@@ -84,11 +84,20 @@ export default function Sidebar() {
           <ArrowBackIcon onClick={handleReveal} className="back" />
           <p>Archived</p>
         </div>
-        <Sidebarchat newchatlist={newchatlist} />
+
+        {newchatlist &&
+          newchatlist?.map((user, index) => {
+            if (account.sub !== user.sub)
+              return <Sidebarchat key={index} newchatlist={newchatlist} />;
+          })}
       </div>
 
       <div className="sidebar_chat_list">
-        <Sidebarchat newchatlist={newchatlist} />
+        {newchatlist &&
+          newchatlist?.map((user, index) => {
+            if (account.sub !== user.sub)
+              return <Sidebarchat key={index} user={user} index={index} />;
+          })}
       </div>
     </div>
   );
