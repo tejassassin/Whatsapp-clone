@@ -22,7 +22,7 @@ export default function Sidebarchat({ user, index }) {
   };
 
   const addConversation = async (user) => {
-    console.log(user);
+    // console.log(user);
 
     setCurrentchat(user);
     // add conversation to database
