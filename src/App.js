@@ -6,9 +6,10 @@ import { DataContext } from "./context/DataProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./components/Login";
 import { getUser } from "./service/api";
+import defaultImage from "../src/images/default.png";
 
 function App() {
-  const { account, setChatlist } = useContext(DataContext);
+  const { account, setChatlist, currentchat } = useContext(DataContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,11 +20,13 @@ function App() {
     fetchData();
   }, []);
 
+  // console.log(currentchat);
+
   const Sidebar_and_chat = () => {
     return (
       <>
         <Sidebar />
-        <Chat />
+        {currentchat ? <Chat /> : <img src={defaultImage} className="defaultImage"/>}
       </>
     );
   };

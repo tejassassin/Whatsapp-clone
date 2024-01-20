@@ -49,6 +49,12 @@ export default function Sidebar() {
     return number;
   };
 
+  const chatgpt = {
+    name: "ChatGPT",
+    picture:
+      "https://res.cloudinary.com/teepublic/image/private/s--_alHJqwv--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/t_watermark_lock/c_limit,f_auto,h_630,q_auto:good:420,w_630/v1678453754/production/designs/40790801_0.jpg",
+  };
+
   return (
     <div className="Sidebar">
       <div className="sidebar_header">
@@ -93,6 +99,7 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar_chat_list">
+        <Sidebarchat user={chatgpt} index={-10000} />
         {newchatlist &&
           newchatlist?.map((user, index) => {
             if (account.sub !== user.sub)

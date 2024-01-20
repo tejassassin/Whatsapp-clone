@@ -10,12 +10,22 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../context/DataProvider";
 import { addMessage, getConversation } from "../service/api";
+import { formatDate } from "../utils/formatTime";
+import chatgpt from "../utils/Chatgpt";
 
 export default function Chat() {
-  const { account, chatlist, currentchat } = useContext(DataContext);
+  const {
+    account,
+    chatlist,
+    currentchat,
+    setChatgptMessages,
+    chatgptMessages,
+  } = useContext(DataContext);
   const [messageInput, setMessageInput] = useState("");
 
   const [currentConvesation, setCurrentConvesation] = useState({});
+
+  const [messageFlag, setMessageFlag] = useState(true);
 
   const fetchData = async () => {
     let currConversation = await getConversation({
@@ -23,19 +33,44 @@ export default function Chat() {
       receiverId: currentchat.sub,
     });
 
-    console.log(currConversation)
-
     setCurrentConvesation(currConversation);
   };
 
   useEffect(() => {
-    fetchData();
-  }, [currentchat.sub]);
+    if (currentchat.sub != null) {
+      fetchData();
+    }
+  }, [currentchat.sub, messageFlag]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    let reply;
+    if (currentchat.name == "ChatGPT") {
+      console.log("hello");
 
-    console.log(messageInput);
+      reply = await chatgpt(messageInput);
+
+      setChatgptMessages([
+        ...chatgptMessages,
+        {
+          text: messageInput,
+          type: "text",
+          senderId: account.sub,
+          receiverId: "",
+          timestamp: new Date(),
+        },
+        {
+          text: reply,
+          type: "text",
+          senderId: "",
+          receiverId: "",
+          timestamp: new Date(),
+        },
+      ]);
+    }
+
+    console.log(chatgptMessages);
+    setMessageFlag(!messageFlag);
     await addMessage({
       conversationId: currentConvesation._id,
       message: messageInput,
@@ -44,6 +79,7 @@ export default function Chat() {
       receiverId: currentchat.sub,
       timestamp: new Date(),
     });
+    setMessageInput("");
   };
 
   // const { chatlist } = useContext(DataContext);
@@ -63,19 +99,38 @@ export default function Chat() {
       </div>
 
       <div className="chat_body">
-        {currentchat?.messages?.map((message, index) => {
-          return (
-            <div
-              key={index}
-              className={
-                message.sent ? "chat_message chat_sent" : "chat_message"
-              }
-            >
-              {message.content}
-              <span>{message.time}</span>
-            </div>
-          );
-        })}
+        {currentchat.name != "ChatGPT"
+          ? currentConvesation &&
+            currentConvesation?.messages?.map((message, index) => {
+              return (
+                <div
+                  key={index}
+                  className={
+                    message.senderId == account.sub
+                      ? "chat_message chat_sent"
+                      : "chat_message"
+                  }
+                >
+                  {message.text}
+                  <span>{formatDate(message?.timestamp)}</span>
+                </div>
+              );
+            })
+          : chatgptMessages.map((message, index) => {
+              return (
+                <div
+                  key={index}
+                  className={
+                    message.senderId == account.sub
+                      ? "chat_message chat_sent"
+                      : "chat_message"
+                  }
+                >
+                  {message.text}
+                  <span>{formatDate(message?.timestamp)}</span>
+                </div>
+              );
+            })}
       </div>
 
       <div className="chat_footer">

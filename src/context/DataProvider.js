@@ -4,11 +4,13 @@ export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
   const [reveal, setReveal] = useState(false);
-  
+
   const [account, setAccount] = useState(null);
-  const [currentchat, setCurrentchat] = useState({});
+  const [currentchat, setCurrentchat] = useState(null);
 
   const [chatlist, setChatlist] = useState([]);
+
+  const [chatgptMessages, setChatgptMessages] = useState([]);
 
   // const [chatlist, setChatlist] = useState([
   //   {
@@ -58,6 +60,8 @@ export default function DataProvider({ children }) {
         setReveal,
         account,
         setAccount,
+        chatgptMessages,
+        setChatgptMessages,
       }}
     >
       {children}
